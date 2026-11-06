@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TikTok Stalker — Insomnia Dev</title>
+<link rel="icon" href="logo.png" type="image/png">
+<link rel="stylesheet" href="beranda.css">
+<link rel="stylesheet" href="stalktt.css">
+</head>
+<body class="is-loading">
+<div class="xfer" aria-hidden="true"><div class="xfer__half xfer__half--top"></div><div class="xfer__half xfer__half--bot"></div><div class="xfer__seam"></div><div class="xfer__brand"><img src="logo.png" alt=""><span>Insomnia<em>Dev</em></span></div></div>
+<div class="bg" aria-hidden="true"><div class="bg__grid"></div></div>
+<header class="nav reveal" style="--d:80ms">
+  <a class="nav__brand" href="beranda.html" data-nav><img src="logo.png" alt="Logo"><b>Insomnia<em>Dev</em></b></a>
+  <nav class="nav__links" id="navViewport"><div class="nav__track" id="navTrack">
+    <a href="beranda.html" class="nav__link" data-nav>Beranda</a>
+    <a href="tools.html" class="nav__link is-active" data-nav>Tools</a>
+    <a href="req.html" class="nav__link" data-nav>Req</a>
+    <a href="info.html" class="nav__link" data-nav>Information</a>
+  </div></nav>
+</header>
+
+<main class="page">
+  <section class="hero reveal" style="--d:160ms">
+    <div class="hero__badge"><i></i> Tools · TikTok Stalker</div>
+    <h1 class="hero__title">Intip profil TikTok<br><em>tanpa ribet.</em></h1>
+    <p class="hero__desc">Lihat statistik publik, bio, region akun, dan info dasar profil TikTok siapa pun.</p>
+  </section>
+
+  <section class="stalk reveal" style="--d:240ms">
+    <div class="stalk__head">
+      <div class="stalk__mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg></div>
+      <div><div class="stalk__kicker">TikTok Stalker</div><h2 class="stalk__title">Cari <em>profil TikTok</em></h2></div>
+    </div>
+    <form class="stalk__form" id="stalkForm" novalidate>
+      <div class="stalk__field">
+        <svg class="stalk__field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>
+        <input type="text" class="stalk__input" id="stalkInput" placeholder="@username atau link" autocomplete="off">
+      </div>
+      <button type="submit" class="stalk__submit" id="stalkSubmit"><span class="stalk__submit-label">Cari</span><span class="stalk__spinner" id="stalkSpinner" hidden></span></button>
+    </form>
+    <p class="stalk__hint">Contoh: <strong>@charliedamelio</strong> atau <strong>tiktok.com/@charliedamelio</strong></p>
+    <div class="stalk__status" id="stalkStatus" hidden></div>
+    <div class="profile" id="stalkResult" hidden></div>
+  </section>
+</main>
+<footer class="foot reveal" style="--d:320ms">&copy; <span id="y">2025</span> <span>Insomnia Dev</span>. Semua hak dilindungi.</footer>
+<script src="app.js" defer></script>
+
+<script>
+(function(){
+  function initStalker(){
+    var form=document.getElementById("stalkForm"); if(!form) return;
+    var input=document.getElementById("stalkInput"), submit=document.getElementById("stalkSubmit");
+    var spinner=document.getElementById("stalkSpinner"), label=submit.querySelector(".stalk__submit-label");
+    var statusEl=document.getElementById("stalkStatus"), resultEl=document.getElementById("stalkResult");
+    function escapeHtml(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+    function fmtNum(n){n=Number(n)||0;if(n>=1e9)return(n/1e9).toFixed(1).replace(/\.0$/,"")+"B";if(n>=1e6)return(n/1e6).toFixed(1).replace(/\.0$/,"")+"M";if(n>=1e3)return(n/1e3).toFixed(1).replace(/\.0$/,"")+"K";return String(n);}
+    function fmtFull(n){return (Number(n)||0).toLocaleString("id-ID");}
+    var ICONS={loading:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M21 12a9 9 0 1 1-6.2-8.5"/></svg>',error:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>',success:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>'};
+    function showStatus(t,ty){statusEl.className="stalk__status is-"+(ty||"info");statusEl.innerHTML=(ICONS[ty]||"")+"<span>"+escapeHtml(t)+"</span>";statusEl.hidden=false;}
+    function hideStatus(){statusEl.hidden=true;statusEl.innerHTML="";}
+    function renderProfile(p){
+      var html='<div class="profile__top"><div class="profile__avatar">'+(p.avatar?'<img src="'+escapeHtml(p.avatar)+'" onerror="this.style.display=\'none\'">':'')+'</div>';
+      html+='<div class="profile__info"><div class="profile__name"><span>'+escapeHtml(p.nickname||p.username)+'</span>'+(p.verified?'<span class="profile__verified"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M20 6 9 17l-5-5"/></svg></span>':'')+'</div>';
+      html+='<div class="profile__username">@'+escapeHtml(p.username)+'</div><div class="profile__bio">'+escapeHtml(p.bio||"Tidak ada bio.")+'</div></div></div>';
+      html+='<div class="profile__stats"><div class="profile__stat"><b>'+fmtNum(p.followers)+'</b><span>Followers</span></div><div class="profile__stat"><b>'+fmtNum(p.following)+'</b><span>Following</span></div><div class="profile__stat"><b>'+fmtNum(p.likes)+'</b><span>Likes</span></div><div class="profile__stat"><b>'+fmtNum(p.videos)+'</b><span>Video</span></div></div>';
+      if(p.regionCode||p.currentRegionCode){
+        html+='<div class="profile__region"><div class="profile__region-flag">'+(p.regionFlag||p.currentRegionFlag||"")+'</div><div class="profile__region-info"><div class="profile__region-label">Region</div><div class="profile__region-value">'+escapeHtml(p.regionCountry||p.currentRegionCountry||p.regionCode||p.currentRegionCode)+'</div></div></div>';
+      }
+      html+='<div class="profile__meta">';
+      if(p.accountAge) html+='<span class="profile__tag">Umur: <b>'+escapeHtml(p.accountAge)+'</b></span>';
+      if(p.language) html+='<span class="profile__tag">Bahasa: <b>'+escapeHtml(p.language.toUpperCase())+'</b></span>';
+      html+=p.privateAccount?'<span class="profile__tag profile__tag--off">Privat</span>':'<span class="profile__tag profile__tag--ok">Publik</span>';
+      if(p.profileUrl) html+='<a class="profile__tag" href="'+escapeHtml(p.profileUrl)+'" target="_blank">Buka TikTok &rarr;</a>';
+      html+='</div>';
+      resultEl.innerHTML=html; resultEl.hidden=false;
+    }
+    form.addEventListener("submit",async function(ev){
+      ev.preventDefault(); var val=input.value.trim(); if(!val) return;
+      resultEl.hidden=true; submit.disabled=true; spinner.hidden=false; label.textContent="Mencari"; showStatus("Mengambil profil...","loading");
+      try{
+        var res=await fetch("/api/stalktt",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({input:val})});
+        var json=await res.json(); if(!json.ok) throw new Error(json.error);
+        hideStatus(); renderProfile(json.profile);
+      }catch(err){showStatus(err.message||"Error","error");}
+      finally{submit.disabled=false; spinner.hidden=true; label.textContent="Cari";}
+    });
+  }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",initStalker); else initStalker();
+})();
+</script>
+</body>
+</html>
