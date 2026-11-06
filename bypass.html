@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bypass Link — Insomnia Dev</title>
+<link rel="icon" href="logo.png" type="image/png">
+<link rel="stylesheet" href="beranda.css">
+<link rel="stylesheet" href="bypass.css">
+</head>
+<body class="is-loading">
+<div class="xfer" aria-hidden="true"><div class="xfer__half xfer__half--top"></div><div class="xfer__half xfer__half--bot"></div><div class="xfer__seam"></div><div class="xfer__brand"><img src="logo.png" alt=""><span>Insomnia<em>Dev</em></span></div></div>
+<div class="bg" aria-hidden="true"><div class="bg__grid"></div></div>
+
+<header class="nav reveal" style="--d:80ms">
+  <a class="nav__brand" href="beranda.html" data-nav><img src="logo.png" alt="Logo"><b>Insomnia<em>Dev</em></b></a>
+  <nav class="nav__links" id="navViewport"><div class="nav__track" id="navTrack">
+    <a href="beranda.html" class="nav__link" data-nav>Beranda</a>
+    <a href="tools.html" class="nav__link is-active" data-nav>Tools</a>
+    <a href="req.html" class="nav__link" data-nav>Req</a>
+    <a href="info.html" class="nav__link" data-nav>Information</a>
+  </div></nav>
+</header>
+
+<main class="page">
+  <section class="hero reveal" style="--d:160ms">
+    <div class="hero__badge"><i></i> Tools · Bypass Link</div>
+    <h1 class="hero__title">Lewati link<br><em>tanpa ribet.</em></h1>
+    <p class="hero__desc">Buka tautan yang dilindungi AdLinkSumo secara langsung. Dapatkan URL tujuan asli atau link download langsung tanpa harus melewati iklan.</p>
+  </section>
+
+  <section class="byp reveal" style="--d:240ms">
+    <div class="byp__head">
+      <div class="byp__mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/><path d="M8 12h8" stroke-dasharray="2 2"/></svg></div>
+      <div><div class="byp__kicker">Link Bypasser</div><h2 class="byp__title">Buka <em>Link</em></h2></div>
+    </div>
+    <form class="byp__form" id="bypForm" novalidate>
+      <div class="byp__control" id="bypWrap">
+        <svg class="byp__control-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        <input type="url" class="byp__input" id="bypUrl" placeholder="https://adlinksumo.com/xxxxx" autocomplete="off">
+      </div>
+      <button type="submit" class="byp__submit" id="bypSubmit"><span class="byp__submit-label">Bypass</span><span class="byp__spinner" id="bypSpinner" hidden></span></button>
+    </form>
+    <p style="font-size:12px;color:var(--muted);line-height:1.5;">Mendukung link dari <strong>adlinksumo.com</strong>.</p>
+    <div class="byp__status" id="bypStatus" hidden></div>
+    <div class="byp__result" id="bypResult" hidden></div>
+  </section>
+</main>
+
+<footer class="foot reveal" style="--d:320ms">&copy; <span id="y">2025</span> <span>Insomnia Dev</span>. Semua hak dilindungi.</footer>
+<script src="app.js" defer></script>
+
+<script>
+(function(){
+  function initByp(){
+    var form=document.getElementById("bypForm"); if(!form) return;
+    var input=document.getElementById("bypUrl"), wrap=document.getElementById("bypWrap");
+    var submit=document.getElementById("bypSubmit"), spinner=document.getElementById("bypSpinner");
+    var label=submit.querySelector(".byp__submit-label"), statusEl=document.getElementById("bypStatus"), resultEl=document.getElementById("bypResult");
+    function escapeHtml(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+    var ICONS={loading:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M21 12a9 9 0 1 1-6.2-8.5"/></svg>',error:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>',success:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>'};
+    function showStatus(t,ty){statusEl.className="byp__status is-"+(ty||"info");statusEl.innerHTML=(ICONS[ty]||"")+"<span>"+escapeHtml(t)+"</span>";statusEl.hidden=false;}
+    function hideStatus(){statusEl.hidden=true;statusEl.innerHTML="";}
+    function renderResult(data){
+      var html='<div class="byp__res-head"><div class="byp__res-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg></div><div style="flex:1;min-width:0"><div class="byp__res-title">Link Berhasil Dibuka</div><div class="byp__res-sub">'+escapeHtml(data.short_url||"-")+'</div></div></div>';
+      html+='<div class="byp__res-body"><div><div class="byp__res-label">URL Tujuan</div><a class="byp__res-link" href="'+escapeHtml(data.destination_url)+'" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>'+escapeHtml(data.destination_url)+'</a></div>';
+      if(data.direct_download){html+='<div><div class="byp__res-label">Download Langsung</div><a class="byp__res-dl" href="'+escapeHtml(data.direct_download)+'" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg> Download File</a></div>';}
+      html+='</div>';
+      resultEl.innerHTML=html; resultEl.hidden=false;
+    }
+    input.addEventListener("input",function(){wrap.classList.remove("is-invalid");});
+    form.addEventListener("submit",async function(ev){
+      ev.preventDefault(); var url=input.value.trim(); if(!url){wrap.classList.add("is-invalid");showStatus("Masukkan URL.","error");return;}
+      resultEl.hidden=true; submit.disabled=true; input.disabled=true; spinner.hidden=false; label.textContent="Memproses"; showStatus("Memproses link...","loading");
+      try{
+        var res=await fetch("/api/bypass",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({url:url})});
+        var json=await res.json(); if(!json.ok) throw new Error(json.error);
+        hideStatus(); renderResult(json.data);
+      }catch(err){showStatus(err.message||"Error","error");}
+      finally{submit.disabled=false; input.disabled=false; spinner.hidden=true; label.textContent="Bypass";}
+    });
+  }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",initByp); else initByp();
+})();
+</script>
+</body>
+</html>
