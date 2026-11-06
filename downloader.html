@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Downloader — Insomnia Dev</title>
+<link rel="icon" href="logo.png" type="image/png">
+<link rel="stylesheet" href="beranda.css">
+<link rel="stylesheet" href="downloader.css">
+</head>
+<body class="is-loading">
+
+<div class="xfer" aria-hidden="true">
+  <div class="xfer__half xfer__half--top"></div>
+  <div class="xfer__half xfer__half--bot"></div>
+  <div class="xfer__seam"></div>
+  <div class="xfer__brand"><img src="logo.png" alt=""><span>Insomnia<em>Dev</em></span></div>
+</div>
+
+<div class="bg" aria-hidden="true"><div class="bg__grid"></div></div>
+
+<header class="nav reveal" style="--d:80ms">
+  <a class="nav__brand" href="beranda.html" data-nav>
+    <img src="logo.png" alt="Logo Insomnia Dev">
+    <b>Insomnia<em>Dev</em></b>
+  </a>
+  <nav class="nav__links" id="navViewport" aria-label="Navigasi utama">
+    <div class="nav__track" id="navTrack">
+      <a href="beranda.html" class="nav__link" data-nav>Beranda</a>
+      <a href="tools.html" class="nav__link is-active" data-nav>Tools</a>
+      <a href="req.html" class="nav__link" data-nav>Req</a>
+      <a href="info.html" class="nav__link" data-nav>Information</a>
+    </div>
+  </nav>
+</header>
+
+<main class="page">
+  <section class="hero reveal" style="--d:160ms">
+    <div class="hero__badge"><i></i> Tools · Downloader</div>
+    <h1 class="hero__title">Unduh apapun,<br><em>tanpa ribet.</em></h1>
+    <p class="hero__desc">All-in-One Downloader untuk TikTok, Instagram, Facebook, YouTube, Twitter, dan banyak platform lainnya.</p>
+  </section>
+
+  <section class="dl reveal" style="--d:240ms" aria-labelledby="dlTitle">
+    <div class="dl__head">
+      <div class="dl__mark" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+      </div>
+      <div>
+        <div class="dl__kicker">Tools Andalan</div>
+        <h2 class="dl__title" id="dlTitle">All-in-One <em>Downloader</em></h2>
+      </div>
+    </div>
+
+    <form class="dl__form" id="dlForm" novalidate>
+      <div class="dl__field">
+        <svg class="dl__field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        <input type="url" class="dl__input" id="dlUrl" placeholder="Paste link TikTok, IG, FB, YT, Twitter…" autocomplete="off" spellcheck="false" inputmode="url" aria-label="URL yang akan diunduh">
+        <button type="button" class="dl__paste" id="dlPaste">Paste</button>
+      </div>
+      <button type="submit" class="dl__submit" id="dlSubmit">
+        <span class="dl__submit-label">Unduh</span>
+        <span class="dl__submit-spinner" id="dlSpinner" hidden></span>
+      </button>
+    </form>
+
+    <div class="dl__platforms" id="dlPlatforms">
+      <span>TikTok</span><span>Instagram</span><span>Facebook</span>
+      <span>YouTube</span><span>Twitter</span><span>Pinterest</span>
+      <span>Threads</span><span>Spotify</span>
+    </div>
+
+    <div class="dl__status" id="dlStatus" role="status" aria-live="polite" hidden></div>
+    <div class="dl__result" id="dlResult" hidden></div>
+  </section>
+</main>
+
+<footer class="foot reveal" style="--d:320ms">
+  &copy; <span id="y">2025</span> <span>Insomnia Dev</span>. Semua hak dilindungi.
+</footer>
+
+<script src="app.js" defer></script>
+</body>
+</html>
