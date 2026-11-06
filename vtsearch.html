@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VT Search — Insomnia Dev</title>
+<link rel="icon" href="logo.png" type="image/png">
+<link rel="stylesheet" href="beranda.css">
+<link rel="stylesheet" href="vtsearch.css">
+</head>
+<body class="is-loading">
+<div class="xfer" aria-hidden="true"><div class="xfer__half xfer__half--top"></div><div class="xfer__half xfer__half--bot"></div><div class="xfer__seam"></div><div class="xfer__brand"><img src="logo.png" alt=""><span>Insomnia<em>Dev</em></span></div></div>
+<div class="bg" aria-hidden="true"><div class="bg__grid"></div></div>
+
+<header class="nav reveal" style="--d:80ms">
+  <a class="nav__brand" href="beranda.html" data-nav><img src="logo.png" alt="Logo"><b>Insomnia<em>Dev</em></b></a>
+  <nav class="nav__links" id="navViewport"><div class="nav__track" id="navTrack">
+    <a href="beranda.html" class="nav__link" data-nav>Beranda</a>
+    <a href="tools.html" class="nav__link is-active" data-nav>Tools</a>
+    <a href="req.html" class="nav__link" data-nav>Req</a>
+    <a href="info.html" class="nav__link" data-nav>Information</a>
+  </div></nav>
+</header>
+
+<main class="page">
+  <section class="hero reveal" style="--d:160ms">
+    <div class="hero__badge"><i></i> Tools · VT Search</div>
+    <h1 class="hero__title">Cari video TikTok<br><em>tanpa batas.</em></h1>
+    <p class="hero__desc">Temukan video TikTok berdasarkan kata kunci. Putar langsung atau unduh videonya tanpa watermark.</p>
+  </section>
+
+  <section class="vts reveal" style="--d:240ms">
+    <div class="vts__head">
+      <div class="vts__mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6"/></svg></div>
+      <div><div class="vts__kicker">TikTok Video Search</div><h2 class="vts__title">Pencarian <em>Video</em></h2></div>
+    </div>
+    <form class="vts__form" id="vtsForm" novalidate>
+      <div class="vts__control" id="vtsWrap">
+        <svg class="vts__control-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="text" class="vts__input" id="vtsQuery" placeholder="Kata kunci pencarian (contoh: supra mk4)" autocomplete="off">
+      </div>
+      <button type="submit" class="vts__submit" id="vtsSubmit"><span class="vts__submit-label">Cari Video</span><span class="vts__spinner" id="vtsSpinner" hidden></span></button>
+    </form>
+    <div class="vts__status" id="vtsStatus" hidden></div>
+    <div class="vts__grid" id="vtsResult"></div>
+  </section>
+</main>
+
+<footer class="foot reveal" style="--d:320ms">&copy; <span id="y">2025</span> <span>Insomnia Dev</span>. Semua hak dilindungi.</footer>
+<script src="app.js" defer></script>
+
+<script>
+(function(){
+  function initVts(){
+    var form=document.getElementById("vtsForm"); if(!form) return;
+    var input=document.getElementById("vtsQuery"), wrap=document.getElementById("vtsWrap");
+    var submit=document.getElementById("vtsSubmit"), spinner=document.getElementById("vtsSpinner");
+    var label=submit.querySelector(".vts__submit-label"), statusEl=document.getElementById("vtsStatus"), resultEl=document.getElementById("vtsResult");
+    function escapeHtml(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+    var ICONS={loading:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M21 12a9 9 0 1 1-6.2-8.5"/></svg>',error:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>',success:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>'};
+    function showStatus(t,ty){statusEl.className="vts__status is-"+(ty||"info");statusEl.innerHTML=(ICONS[ty]||"")+"<span>"+escapeHtml(t)+"</span>";statusEl.hidden=false;}
+    function hideStatus(){statusEl.hidden=true;statusEl.innerHTML="";}
+    function renderResults(data){
+      resultEl.innerHTML="";
+      if(!data||!data.data||data.data.length===0){resultEl.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:20px;color:var(--muted);">Tidak ada video ditemukan.</div>';return;}
+      var html="";
+      for(var i=0;i<data.data.length;i++){
+        var v=data.data[i];
+        html+='<div class="vcard"><a href="'+escapeHtml(v.play_url)+'" target="_blank" class="vcard__thumb">';
+        if(v.cover_url) html+='<img src="'+escapeHtml(v.cover_url)+'" loading="lazy" onerror="this.style.display=\'none\'">';
+        html+='<div class="vcard__play"><div class="vcard__play-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div></div>';
+        if(v.duration) html+='<span class="vcard__duration">'+escapeHtml(v.duration)+'</span>';
+        html+='</a><div class="vcard__info"><div class="vcard__title">'+escapeHtml(v.title)+'</div><div class="vcard__date">'+escapeHtml(v.created_at)+'</div></div><div class="vcard__actions"><a href="'+escapeHtml(v.play_url)+'" target="_blank" class="vcard__btn vcard__btn--play"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>Putar</span></a><a href="'+escapeHtml(v.play_url)+'" download target="_blank" class="vcard__btn vcard__btn--dl"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg><span>Unduh</span></a></div></div>';
+      }
+      resultEl.innerHTML=html;
+    }
+    input.addEventListener("input",function(){wrap.classList.remove("is-invalid");});
+    form.addEventListener("submit",async function(ev){
+      ev.preventDefault(); var q=input.value.trim(); if(!q){wrap.classList.add("is-invalid");showStatus("Masukkan kata kunci.","error");return;}
+      resultEl.innerHTML=""; submit.disabled=true; input.disabled=true; spinner.hidden=false; label.textContent="Mencari"; showStatus("Mencari video TikTok...","loading");
+      try{
+        var res=await fetch("/api/vtsearch",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({query:q})});
+        var json=await res.json(); if(!json.ok) throw new Error(json.error);
+        hideStatus(); showStatus("Ditemukan "+json.data.total_results+" video.","success"); renderResults(json.data);
+      }catch(err){showStatus(err.message||"Error","error");}
+      finally{submit.disabled=false; input.disabled=false; spinner.hidden=true; label.textContent="Cari Video";}
+    });
+  }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",initVts); else initVts();
+})();
+</script>
+</body>
+</html>
