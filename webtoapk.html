@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web to APK — Insomnia Dev</title>
+<link rel="icon" href="logo.png" type="image/png">
+<link rel="stylesheet" href="beranda.css">
+<link rel="stylesheet" href="webtoapk.css">
+</head>
+<body class="is-loading">
+<div class="xfer" aria-hidden="true"><div class="xfer__half xfer__half--top"></div><div class="xfer__half xfer__half--bot"></div><div class="xfer__seam"></div><div class="xfer__brand"><img src="logo.png" alt=""><span>Insomnia<em>Dev</em></span></div></div>
+<div class="bg" aria-hidden="true"><div class="bg__grid"></div></div>
+
+<header class="nav reveal" style="--d:80ms">
+  <a class="nav__brand" href="beranda.html" data-nav><img src="logo.png" alt="Logo"><b>Insomnia<em>Dev</em></b></a>
+  <nav class="nav__links" id="navViewport"><div class="nav__track" id="navTrack">
+    <a href="beranda.html" class="nav__link" data-nav>Beranda</a>
+    <a href="tools.html" class="nav__link is-active" data-nav>Tools</a>
+    <a href="req.html" class="nav__link" data-nav>Req</a>
+    <a href="info.html" class="nav__link" data-nav>Information</a>
+  </div></nav>
+</header>
+
+<main class="page">
+  <section class="hero reveal" style="--d:160ms">
+    <div class="hero__badge"><i></i> Tools · Web to APK</div>
+    <h1 class="hero__title">Website jadi<br><em>aplikasi Android.</em></h1>
+    <p class="hero__desc">Ubah situs web apa pun menjadi file APK siap pasang. Cukup isi nama aplikasi, package name, dan URL website-nya.</p>
+  </section>
+
+  <section class="wa reveal" style="--d:240ms">
+    <div class="wa__head">
+      <div class="wa__mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg></div>
+      <div><div class="wa__kicker">Web to APK</div><h2 class="wa__title">Buat <em>APK</em> baru</h2></div>
+    </div>
+
+    <form class="wa__form" id="waForm" novalidate>
+      <div class="wa__field">
+        <label class="wa__label" for="waAppName">Nama Aplikasi</label>
+        <div class="wa__control" id="waNameWrap">
+          <svg class="wa__control-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>
+          <input type="text" class="wa__input" id="waAppName" maxlength="60" placeholder="Contoh: Toko Online Saya" autocomplete="off">
+        </div>
+      </div>
+      <div class="wa__field">
+        <label class="wa__label" for="waPkg">Package Name <span class="wa__label-hint">— unik per aplikasi</span></label>
+        <div class="wa__control" id="waPkgWrap">
+          <svg class="wa__control-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M16 18l6-6-6-6"/><path d="M8 6l-6 6 6 6"/></svg>
+          <input type="text" class="wa__input" id="waPkg" placeholder="com.example.myapp" autocomplete="off">
+        </div>
+      </div>
+      <div class="wa__field">
+        <label class="wa__label" for="waUrl">URL Website</label>
+        <div class="wa__control" id="waUrlWrap">
+          <svg class="wa__control-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          <input type="url" class="wa__input" id="waUrl" placeholder="https://example.com" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="wa__field">
+        <label class="wa__label">Icon Aplikasi <span class="wa__label-hint">— Opsional</span></label>
+        <div class="wa__upload-wrap" id="waUploadWrap">
+          <input type="file" id="waIcon" class="wa__file-input" accept="image/png, image/jpeg">
+          <div class="wa__upload-preview" id="waUploadPreview">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </div>
+          <div class="wa__upload-info">
+            <div class="wa__upload-title" id="waUploadTitle">Pilih Gambar</div>
+            <div class="wa__upload-desc">PNG atau JPG, maks 2MB (512x512 disarankan)</div>
+          </div>
+          <button type="button" class="wa__upload-clear" id="waUploadClear" hidden>Hapus</button>
+        </div>
+      </div>
+
+      <details class="wa__advanced">
+        <summary><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M9 18l6-6-6-6"/></svg> Opsi Lanjutan</summary>
+        <div class="wa__advanced-body">
+          <div class="wa__row">
+            <div class="wa__field"><label class="wa__label">Versi</label><div class="wa__control"><svg class="wa__control-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 7h16M4 12h16M4 17h10"/></svg><input type="text" class="wa__input" id="waVersion" value="1.0" placeholder="1.0"></div></div>
+            <div class="wa__field"><label class="wa__label">Version Code</label><div class="wa__control"><svg class="wa__control-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 7h16M4 12h16M4 17h10"/></svg><input type="number" class="wa__input" id="waVersionCode" value="1" min="1" max="99999"></div></div>
+          </div>
+          <div class="wa__field"><label class="wa__label">Orientasi Layar</label><div class="wa__control"><svg class="wa__control-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M12 18h.01"/></svg><select class="wa__select" id="waOrientation"><option value="auto">Auto (ikut perangkat)</option><option value="portrait">Portrait (tegak)</option><option value="landscape">Landscape (mendatar)</option></select></div></div>
+        </div>
+      </details>
+
+      <button type="submit" class="wa__submit" id="waSubmit"><span class="wa__submit-label">Build APK</span><span class="wa__spinner" id="waSpinner" hidden></span></button>
+    </form>
+
+    <div class="wa__status" id="waStatus" hidden></div>
+    <div class="wa__result" id="waResult" hidden></div>
+    <div class="wa__note"><strong>Catatan:</strong> Proses build 1–2 menit. API ini memiliki batas harian (Free: 3x/hari). Jangan tutup halaman saat proses berjalan.</div>
+  </section>
+</main>
+
+<footer class="foot reveal" style="--d:320ms">&copy; <span id="y">2025</span> <span>Insomnia Dev</span>. Semua hak dilindungi.</footer>
+<script src="app.js" defer></script>
+
+<script>
+(function(){
+  function initWta(){
+    var form=document.getElementById("waForm"); if(!form) return;
+    var nameInput=document.getElementById("waAppName"), nameWrap=document.getElementById("waNameWrap");
+    var pkgInput=document.getElementById("waPkg"), pkgWrap=document.getElementById("waPkgWrap");
+    var urlInput=document.getElementById("waUrl"), urlWrap=document.getElementById("waUrlWrap");
+    var versionInput=document.getElementById("waVersion"), versionCodeInput=document.getElementById("waVersionCode"), orientInput=document.getElementById("waOrientation");
+    var submit=document.getElementById("waSubmit"), spinner=document.getElementById("waSpinner");
+    var label=submit.querySelector(".wa__submit-label"), statusEl=document.getElementById("waStatus"), resultEl=document.getElementById("waResult");
+    var iconInput=document.getElementById("waIcon"), uploadPreview=document.getElementById("waUploadPreview"), uploadTitle=document.getElementById("waUploadTitle"), uploadClear=document.getElementById("waUploadClear");
+    var selectedIcon=null;
+    function escapeHtml(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+    var ICONS={loading:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M21 12a9 9 0 1 1-6.2-8.5"/></svg>',error:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>',success:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>'};
+    function showStatus(t,ty){statusEl.className="wa__status is-"+(ty||"info");statusEl.innerHTML=(ICONS[ty]||"")+"<span>"+escapeHtml(t)+"</span>";statusEl.hidden=false;}
+    function hideStatus(){statusEl.hidden=true;statusEl.innerHTML="";}
+    function fmtSize(bytes){if(!bytes)return"-";var b=Number(bytes);if(b>=1048576)return(b/1048576).toFixed(2)+" MB";if(b>=1024)return(b/1024).toFixed(2)+" KB";return b+" B";}
+    function renderResult(data){
+      var html='<div class="wa__result-head"><div class="wa__result-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg></div><div style="flex:1;min-width:0"><div class="wa__result-title">'+escapeHtml(data.appName||"-")+'</div><div class="wa__result-sub">'+escapeHtml(data.packageName||"-")+'</div></div></div>';
+      html+='<div class="wa__result-body"><div class="wa__row-item"><div class="wa__row-label">File</div><div class="wa__row-value is-mono">'+escapeHtml(data.fileName||"-")+'</div></div><div class="wa__row-item"><div class="wa__row-label">Ukuran</div><div class="wa__row-value">'+escapeHtml(data.fileSizeFormatted||fmtSize(data.fileSize))+'</div></div><div class="wa__row-item" style="grid-column:1/-1"><div class="wa__row-label">Target</div><div class="wa__row-value is-mono">'+escapeHtml(data.targetUrl||"-")+'</div></div></div>';
+      if(data.downloadUrl){html+='<div class="wa__result-foot"><a class="wa__download" href="'+escapeHtml(data.downloadUrl)+'" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg> Download APK</a></div>';}
+      resultEl.innerHTML=html; resultEl.hidden=false;
+    }
+    [nameInput,pkgInput,urlInput].forEach(function(el){if(!el)return;el.addEventListener("input",function(){if(nameWrap)nameWrap.classList.remove("is-invalid");if(pkgWrap)pkgWrap.classList.remove("is-invalid");if(urlWrap)urlWrap.classList.remove("is-invalid");});});
+    iconInput.addEventListener("change",function(){var file=iconInput.files[0];if(!file)return;if(file.size>2097152){showStatus("Ukuran icon maksimal 2MB.","error");iconInput.value="";return;}if(file.type!=="image/png"&&file.type!=="image/jpeg"){showStatus("Format icon harus PNG atau JPG.","error");iconInput.value="";return;}selectedIcon=file;var reader=new FileReader();reader.onload=function(e){uploadPreview.innerHTML='<img src="'+e.target.result+'" alt="Preview">';uploadTitle.textContent=file.name;uploadClear.hidden=false;};reader.readAsDataURL(file);});
+    uploadClear.addEventListener("click",function(e){e.preventDefault();iconInput.value="";selectedIcon=null;uploadPreview.innerHTML='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>';uploadTitle.textContent="Pilih Gambar";uploadClear.hidden=true;});
+    form.addEventListener("submit",async function(ev){
+      ev.preventDefault(); var appName=nameInput.value.trim(),pkg=pkgInput.value.trim(),url=urlInput.value.trim(),versionName=versionInput.value.trim()||"1.0",versionCode=parseInt(versionCodeInput.value,10)||1,orientation=orientInput.value;
+      if(!appName){nameWrap.classList.add("is-invalid");showStatus("Nama aplikasi wajib diisi.","error");return;}
+      if(!pkg){pkgWrap.classList.add("is-invalid");showStatus("Package name wajib diisi.","error");return;}
+      if(!/^[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)+$/i.test(pkg)){pkgWrap.classList.add("is-invalid");showStatus("Format package name tidak valid.","error");return;}
+      if(!url){urlWrap.classList.add("is-invalid");showStatus("URL wajib diisi.","error");return;}
+      if(!/^https?:\/\//i.test(url)){urlWrap.classList.add("is-invalid");showStatus("URL harus dimulai http/https.","error");return;}
+      resultEl.hidden=true; submit.disabled=true; spinner.hidden=false; label.textContent="Membangun..."; showStatus("Memulai proses build...","loading");
+      try{
+        var fd=new FormData();fd.append("appName",appName);fd.append("packageName",pkg);fd.append("url",url);fd.append("versionName",versionName);fd.append("versionCode",versionCode);fd.append("orientation",orientation);if(selectedIcon)fd.append("icon",selectedIcon);
+        var res=await fetch("/api/webtoapk",{method:"POST",body:fd});
+        var json=await res.json();if(!json.ok)throw new Error(json.error);
+        hideStatus();showStatus("APK berhasil dibuat!","success");renderResult(json.data);
+      }catch(err){showStatus(err.message||"Terjadi kesalahan.","error");}
+      finally{submit.disabled=false;spinner.hidden=true;label.textContent="Build APK";}
+    });
+  }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",initWta); else initWta();
+})();
+</script>
+</body>
+</html>
